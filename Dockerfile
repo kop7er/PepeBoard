@@ -16,4 +16,4 @@ RUN npm run build
 
 COPY . .
 
-CMD ["/bin/sh", "-c", "node build/index.js"]
+CMD ["/bin/sh", "-c", "node dist/index.js"]
