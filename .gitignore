@@ -1,6 +1,10 @@
-#Files
+# Environment Variables
 .env
+.env.local
+.env.development.local
 
-#Folders
-build
-node_modules
+# NodeJS
+node_modules/
+
+# Build Folder
+dist/
