@@ -2,12 +2,12 @@ import { Client, Interaction } from "discord.js";
 
 module.exports = {
 
-	name: "interactionCreate",
+    name: "interactionCreate",
 
-	once: false,
+    once: false,
 
-	async execute(bot: Client, interaction: Interaction) {
-        
+    async execute(bot: Client, interaction: Interaction) {
+
         try {
 
             if (!interaction.isCommand() || interaction.user.bot) return;
@@ -17,9 +17,9 @@ module.exports = {
         } catch (error) {
 
             console.error(error);
-            
+
         }
 
-	}
+    }
 
-};
+}

@@ -1,4 +1,4 @@
-function getBoardFont(boardType: BoardType) {
+export default function getBoardFont(boardType: BoardType) {
 
     switch (boardType) {
 
@@ -11,7 +11,5 @@ function getBoardFont(boardType: BoardType) {
             return "26px Minecraftia-Regular";
 
     }
-    
-}
 
-export default getBoardFont;
+}

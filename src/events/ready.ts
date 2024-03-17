@@ -1,27 +1,25 @@
 import path from "path";
-
 import { Client } from "discord.js";
-
 import { registerFont } from "canvas";
 
 module.exports = {
 
-	name: "ready",
+    name: "ready",
 
-	once: true,
+    once: true,
 
-	async execute(bot: Client) {
-        
-		console.log(`${bot.user?.username} Discord Bot is now online!`);		
+    async execute(bot: Client) {
 
-		bot.user?.setActivity(`PepeBoard.xyz | ${bot.guilds.cache.size} Servers`);
+        console.log(`${bot.user?.username} Discord Bot is now online!`);
 
-		setInterval(() => bot.user?.setActivity(`PepeBoard.xyz | ${bot.guilds.cache.size} Servers`), 1800000);
+        bot.user?.setActivity(`PepeBoard.xyz | ${bot.guilds.cache.size} Servers`);
 
-		registerFont(path.resolve(__dirname, "../../fonts/Lato-Bold.ttf"), { family: "Lato-Bold" });
+        setInterval(() => bot.user?.setActivity(`PepeBoard.xyz | ${bot.guilds.cache.size} Servers`), 1800000);
 
-		registerFont(path.resolve(__dirname, "../../fonts/Minecraftia-Regular.ttf"), { family: "Minecraftia-Regular" });
+        registerFont(path.resolve(__dirname, "../../fonts/Lato-Bold.ttf"), { family: "Lato-Bold" });
 
-	}
+        registerFont(path.resolve(__dirname, "../../fonts/Minecraftia-Regular.ttf"), { family: "Minecraftia-Regular" });
 
-};
+    }
+
+}

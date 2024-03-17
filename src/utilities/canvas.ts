@@ -1,12 +1,9 @@
 import { createCanvas } from "canvas";
-
 import getBoardFont from "./font";
-
 import getBoardImage from "./image";
-
 import getBoardTextLocation from "./textLocation";
 
-async function getBoard(boardText: string, boardType: BoardType) {
+export default async function getBoard(boardText: string, boardType: BoardType) {
 
     const boardImage = await getBoardImage();
 
@@ -22,12 +19,10 @@ async function getBoard(boardText: string, boardType: BoardType) {
 
     ctx.fillStyle = "#000000";
 
-    ctx.textAlign = "center";    
+    ctx.textAlign = "center";
 
     ctx.fillText(boardText, textLocation.x, textLocation.y);
 
     return canvas.toBuffer();
-    
-}
 
-export default getBoard;
+}

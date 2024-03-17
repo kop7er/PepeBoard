@@ -1,10 +1,8 @@
-import { loadImage } from "canvas";
-
-import type { Image } from "canvas";
+import { loadImage, type Image } from "canvas";
 
 let boardImage: Image | null = null;
 
-async function getBoardImage() {
+export default async function getBoardImage() {
 
     if (boardImage == null) {
 
@@ -15,5 +13,3 @@ async function getBoardImage() {
     return boardImage;
 
 }
-
-export default getBoardImage;

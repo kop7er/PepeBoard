@@ -18,13 +18,13 @@ module.exports = {
 
     },
 
-	data: new SlashCommandBuilder()
-		.setName("board")
-		.setDescription("A command to create a Pepe Board")
+    data: new SlashCommandBuilder()
+        .setName("board")
+        .setDescription("A command to create a Pepe Board")
         .addStringOption(option => option.setName("text").setDescription("Board Text").setRequired(true)),
 
-	async execute(interaction: ChatInputCommandInteraction) {
-        
+    async execute(interaction: ChatInputCommandInteraction) {
+
         const boardText = interaction.options.getString("text", true);
 
         if (boardText.length > 8) return interaction.reply({ content: "The shown text has a limit of 8 characters", ephemeral: true });
@@ -33,7 +33,7 @@ module.exports = {
 
         const attachment = new AttachmentBuilder(boardImage, { name: `board-${boardText}.png` });
 
-        interaction.reply({ files: [ attachment ] });
+        interaction.reply({ files: [attachment] });
 
     }
 

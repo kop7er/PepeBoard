@@ -1,13 +1,8 @@
 import "dotenv/config";
-
 import path from "path";
-
 import { readdirSync } from "fs";
-
 import { Client, Collection } from "discord.js";
-
 import { REST } from "@discordjs/rest";
-
 import { Routes } from "discord-api-types/v10";
 
 const bot = new Client({ intents: [] });
@@ -27,7 +22,7 @@ for (const file of eventFiles) {
     if (event.once) bot.once(event.name, (...args) => event.execute(bot, ...args));
 
     else bot.on(event.name, (...args) => event.execute(bot, ...args));
-    
+
 }
 
 const commandsData: any[] = [];
@@ -54,16 +49,16 @@ for (const file of commandFiles) {
 
         console.log(`Loaded ${command.info.displayName} Command`);
 
-    } catch (err) { 
-        
-        console.error(`Failed To Load A Command (${file})! | ${err}`); 
-    
+    } catch (err) {
+
+        console.error(`Failed To Load A Command (${file})! | ${err}`);
+
     }
-    
+
 }
 
 bot.login(process.env.BOT_TOKEN).then(() => {
-    
+
     rest.put(Routes.applicationCommands(bot.application?.id!), { body: commandsData })
 
         .then(() => console.log("Successfully Registered Application Commands!"))
