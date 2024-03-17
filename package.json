@@ -20,12 +20,15 @@
   },
   "homepage": "https://github.com/Kop7er/PepeBoard#readme",
   "dependencies": {
+    "@discordjs/rest": "^2.2.0",
     "canvas": "^2.11.2",
     "discord-api-types": "^0.37.74",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
-    "tsc-watch": "^6.0.4"
+    "@tsconfig/node20": "^20.1.2",
+    "tsc-watch": "^6.0.4",
+    "typescript": "^5.4.2"
   }
 }

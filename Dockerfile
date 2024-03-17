@@ -1,19 +1,43 @@
-FROM node:16.16.0
+# Base Image
 
-WORKDIR /usr/src/app
+FROM node:20-slim AS base
 
-RUN apt-get update && apt-get install -qq build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+ENV PNPM_HOME="/pnpm"
 
-COPY package.json ./package.json
+ENV PATH="$PNPM_HOME:$PATH"
 
-COPY tsconfig.json ./tsconfig.json
+RUN corepack enable
 
-RUN npm install && npm install typescript -g
+WORKDIR /app
 
-COPY src ./src
+# App Dependencies 
 
-RUN npm run build
+FROM base AS deps
 
-COPY . .
+COPY package.json pnpm-lock.yaml /app/
 
-CMD ["/bin/sh", "-c", "node dist/index.js"]
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+
+# Build App
+
+FROM base AS builder
+
+COPY . /app
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+RUN pnpm run build
+
+# Production Image
+
+FROM base
+
+ENV NODE_ENV production
+
+COPY /fonts /app/fonts
+
+COPY --from=deps /app/node_modules /app/node_modules
+
+COPY --from=builder /app/dist /app/dist
+
+CMD ["node", "dist/index.js"]
