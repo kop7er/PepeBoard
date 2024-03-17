@@ -9,13 +9,13 @@ dependencies:
     specifier: ^2.11.2
     version: 2.11.2
   discord-api-types:
-    specifier: ^0.37.47
+    specifier: ^0.37.74
     version: 0.37.74
   discord.js:
-    specifier: ^14.11.0
+    specifier: ^14.14.1
     version: 14.14.1
   dotenv:
-    specifier: ^16.3.1
+    specifier: ^16.4.5
     version: 16.4.5
 
 devDependencies:
