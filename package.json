@@ -1,34 +1,37 @@
 {
   "name": "pepe-board",
+  "private": true,
   "version": "1.0.0",
-  "description": "Create Pepe Board Emotes/Stickers/Images Using A Discord Bot",
-  "main": "dist/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc-watch --onSuccess \"node dist/index.js\"",
-    "build": "tsc",
-    "start": "node dist/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Kop7er/PepeBoard.git"
-  },
+  "description": "Mono repo containing the Pepe Board Discord bot and website",
   "author": "Kopter",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Kop7er/PepeBoard/issues"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kop7er/PepeBoard.git"
   },
-  "homepage": "https://github.com/Kop7er/PepeBoard#readme",
-  "dependencies": {
-    "@discordjs/rest": "^2.2.0",
-    "canvas": "^2.11.2",
-    "discord-api-types": "^0.37.74",
-    "discord.js": "^14.14.1",
-    "dotenv": "^16.4.5"
+  "bugs": {
+    "url": "https://github.com/kop7er/PepeBoard/issues"
+  },
+  "homepage": "https://github.com/kop7er/PepeBoard#readme",
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "start": "pnpm --filter @pepeboard/bot start",
+    "bot:dev": "pnpm --filter @pepeboard/bot dev",
+    "bot:build": "pnpm --filter @pepeboard/bot build",
+    "bot:start": "pnpm --filter @pepeboard/bot start",
+    "web:dev": "pnpm --filter @pepeboard/web dev",
+    "web:build": "pnpm --filter @pepeboard/web build",
+    "web:start": "pnpm --filter @pepeboard/web start",
+    "format": "biome format --write .",
+    "lint": "biome lint --write .",
+    "check": "biome check --write ."
+  },
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=9"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.2",
-    "tsc-watch": "^6.0.4",
-    "typescript": "^5.4.2"
+    "@biomejs/biome": "2.2.4"
   }
 }

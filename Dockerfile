@@ -1,43 +1,38 @@
 # Base Image
-
-FROM node:20-slim AS base
+FROM node:24-slim AS base
 
 ENV PNPM_HOME="/pnpm"
-
 ENV PATH="$PNPM_HOME:$PATH"
 
 RUN corepack enable
 
 WORKDIR /app
 
-# App Dependencies 
-
+# Install production deps for the bot workspace member only
 FROM base AS deps
 
-COPY package.json pnpm-lock.yaml /app/
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/bot/package.json ./apps/bot/package.json
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --filter @pepeboard/bot --prod --frozen-lockfile
 
-# Build App
-
+# Build the Discord bot
 FROM base AS builder
 
-COPY . /app
+COPY . .
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --filter @pepeboard/bot --frozen-lockfile
+RUN pnpm --filter @pepeboard/bot run build
 
-RUN pnpm run build
+# Production image that only contains what the bot needs
+FROM base AS runner
 
-# Production Image
+ENV NODE_ENV=production
 
-FROM base
+WORKDIR /app/apps/bot
 
-ENV NODE_ENV production
-
-COPY /fonts /app/fonts
-
-COPY --from=deps /app/node_modules /app/node_modules
-
-COPY --from=builder /app/dist /app/dist
+COPY --from=deps /app/node_modules ../node_modules
+COPY --from=builder /app/apps/bot/dist ./dist
+COPY --from=builder /app/apps/bot/fonts ./fonts
 
 CMD ["node", "dist/index.js"]

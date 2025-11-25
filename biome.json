@@ -1,0 +1,60 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.js",
+      "**/*.jsx",
+      "**/*.json",
+      "**/*.html",
+      "**/*.css",
+      "**/*.md",
+      "**/*.mdx",
+      "**/*.yml",
+      "**/*.yaml"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 4,
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/node_modules/**", "**/dist/**", "**/routeTree.gen.ts"],
+      "formatter": {
+        "enabled": false
+      },
+      "linter": {
+        "enabled": false
+      }
+    },
+    {
+      "includes": ["**/*.json", "**/*.yml", "**/*.yaml"],
+      "formatter": {
+        "indentWidth": 2
+      }
+    }
+  ]
+}

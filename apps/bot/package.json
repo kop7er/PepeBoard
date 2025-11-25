@@ -1,0 +1,27 @@
+{
+  "name": "@pepeboard/bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Create Pepe Board emotes/stickers/images using a Discord bot",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsc-watch --onSuccess \"node dist/index.js\"",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "format": "biome format --write .",
+    "lint": "biome lint --write .",
+    "check": "biome check --write ."
+  },
+  "dependencies": {
+    "@discordjs/rest": "^2.2.0",
+    "canvas": "^3.2.0",
+    "discord-api-types": "^0.37.74",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.2",
+    "tsc-watch": "^6.0.4",
+    "typescript": "^5.4.2"
+  }
+}

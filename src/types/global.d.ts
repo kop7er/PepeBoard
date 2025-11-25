@@ -1,1 +1,0 @@
-type BoardType = "normal" | "minecraft";

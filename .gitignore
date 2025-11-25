@@ -2,9 +2,15 @@
 .env
 .env.local
 .env.development.local
+apps/*/.env
+apps/*/.env.local
 
 # NodeJS
 node_modules/
+apps/*/node_modules/
+apps/*/.tanstack/
+apps/*/.vite/
 
-# Build Folder
+# Build Folders
 dist/
+apps/*/dist/
