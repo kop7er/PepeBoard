@@ -20,10 +20,14 @@ export const Route = createFileRoute("/")({
     component: Home,
 });
 
+const generateId = () => crypto.randomUUID();
+
+const initialId = generateId();
+
 function Home() {
     const [textElements, setTextElements] = useState<TextElement[]>([
         {
-            id: "1",
+            id: initialId,
             text: "PEPE",
             x: 50,
             y: 23,
@@ -31,7 +35,7 @@ function Home() {
             fontFamily: BOARD_VARIANTS.normal.fontFamily,
         },
     ]);
-    const [selectedId, setSelectedId] = useState<string>("1");
+    const [selectedId, setSelectedId] = useState<string>(initialId);
     const [fontsReady, setFontsReady] = useState(false);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -53,21 +57,42 @@ function Home() {
             setFontsReady(true);
             return;
         }
-        fonts.ready.then(() => setFontsReady(true)).catch(() => setFontsReady(true));
+
+        const fontLoadPromises = Object.values(BOARD_VARIANTS).map((variant) =>
+            fonts.load(`16px ${variant.fontFamily}`).catch(() => {
+                // Font load failed, but continue anyway
+            }),
+        );
+
+        Promise.all(fontLoadPromises)
+            .then(() => setFontsReady(true))
+            .catch(() => setFontsReady(true));
     }, []);
 
     const selectedElement = textElements.find((el) => el.id === selectedId);
+
+    const PREVIEW_WIDTH = 500;
 
     useEffect(() => {
         if (!canvasRef.current || !fontsReady) return;
         const ctx = canvasRef.current.getContext("2d");
         if (!ctx) return;
 
-        const width = image?.naturalWidth ?? FALLBACK_BOARD_SIZE.width;
-        const height = image?.naturalHeight ?? FALLBACK_BOARD_SIZE.height;
+        const baseWidth = image?.naturalWidth ?? FALLBACK_BOARD_SIZE.width;
+        const baseHeight = image?.naturalHeight ?? FALLBACK_BOARD_SIZE.height;
+        const aspectRatio = baseHeight / baseWidth;
 
-        canvasRef.current.width = width;
-        canvasRef.current.height = height;
+        const dpr = window.devicePixelRatio || 1;
+        const displayWidth = PREVIEW_WIDTH;
+        const displayHeight = PREVIEW_WIDTH * aspectRatio;
+
+        canvasRef.current.width = displayWidth * dpr;
+        canvasRef.current.height = displayHeight * dpr;
+
+        ctx.scale(dpr, dpr);
+
+        const width = displayWidth;
+        const height = displayHeight;
 
         ctx.clearRect(0, 0, width, height);
         if (image) {
@@ -126,7 +151,7 @@ function Home() {
     };
 
     const addTextElement = () => {
-        const newId = Date.now().toString();
+        const newId = generateId();
         const newElement: TextElement = {
             id: newId,
             text: "NEW TEXT",
@@ -153,25 +178,61 @@ function Home() {
     const canDownload = Boolean(canvasRef.current) && textElements.some((el) => el.text.trim());
 
     const handleDownload = () => {
-        if (!canvasRef.current) return;
+        if (!image) return;
+
+        // Create a separate canvas at full resolution for download
+        const downloadCanvas = document.createElement("canvas");
+        const ctx = downloadCanvas.getContext("2d");
+        if (!ctx) return;
+
+        const width = image.naturalWidth;
+        const height = image.naturalHeight;
+
+        downloadCanvas.width = width;
+        downloadCanvas.height = height;
+
+        ctx.drawImage(image, 0, 0, width, height);
+
+        textElements.forEach((element) => {
+            if (!element.text) return;
+
+            const scale = height / FALLBACK_BOARD_SIZE.height;
+            const fontSize = Math.round(element.fontSize * scale);
+
+            ctx.font = `${fontSize}px ${element.fontFamily}, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`;
+            ctx.fillStyle = "#111827";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.lineJoin = "round";
+            ctx.lineWidth = Math.max(6 * scale, 2);
+            ctx.strokeStyle = "rgba(255,255,255,0.8)";
+
+            const textX = (element.x / 100) * width;
+            const textY = (element.y / 100) * height;
+
+            ctx.strokeText(element.text, textX, textY);
+            ctx.fillText(element.text, textX, textY);
+        });
+
         const link = document.createElement("a");
         link.download = `pepe-board-${Date.now()}.png`;
-        link.href = canvasRef.current.toDataURL("image/png");
+        link.href = downloadCanvas.toDataURL("image/png");
         link.click();
     };
 
     const handleReset = () => {
+        const resetId = generateId();
         setTextElements([
             {
-                id: "1",
-                text: "HELLO WORLD",
+                id: resetId,
+                text: "PEPE",
                 x: 50,
-                y: 30,
+                y: 23,
                 fontSize: 120,
                 fontFamily: BOARD_VARIANTS.normal.fontFamily,
             },
         ]);
-        setSelectedId("1");
+        setSelectedId(resetId);
     };
 
     return (
@@ -362,7 +423,8 @@ function Home() {
                         onMouseMove={handleCanvasMouseMove}
                         onMouseUp={handleCanvasMouseUp}
                         onMouseLeave={handleCanvasMouseUp}
-                        className="max-h-full max-w-full cursor-crosshair object-contain"
+                        style={{ width: "100%", maxWidth: "500px", height: "auto" }}
+                        className="cursor-crosshair"
                     />
                 </div>
 
