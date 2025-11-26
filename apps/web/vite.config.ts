@@ -17,7 +17,7 @@ export default defineConfig({
         viteReact(),
         tailwindcss(),
         sitemap({
-            hostname: "https://pepeboard.app",
+            hostname: "https://pepeboard.xyz",
             dynamicRoutes: ["/", "/privacy-policy", "/terms-of-service"],
         }),
     ],
