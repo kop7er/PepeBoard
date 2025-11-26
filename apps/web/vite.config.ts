@@ -18,7 +18,8 @@ export default defineConfig({
         tailwindcss(),
         sitemap({
             hostname: "https://pepeboard.xyz",
-            dynamicRoutes: ["/", "/privacy-policy", "/terms-of-service"],
+            dynamicRoutes: ["/privacy-policy", "/terms-of-service"],
+            generateRobotsTxt: true,
         }),
     ],
     resolve: {
