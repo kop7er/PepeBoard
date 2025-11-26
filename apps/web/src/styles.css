@@ -95,3 +95,56 @@ input[type="range"]::-moz-range-track {
     border-radius: 3px;
     height: 6px;
 }
+
+/* Toast animation */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 10px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.2s ease-out;
+}
+
+/* Smooth scrollbar for preview area */
+.overflow-auto::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.overflow-auto::-webkit-scrollbar-track {
+    background: #1e293b;
+    border-radius: 4px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 4px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+/* Color picker styling */
+input[type="color"] {
+    -webkit-appearance: none;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 0.5rem;
+}
