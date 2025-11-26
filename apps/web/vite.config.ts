@@ -4,6 +4,7 @@ import { devtools } from "@tanstack/devtools-vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import sitemap from "vite-plugin-sitemap";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,6 +16,10 @@ export default defineConfig({
         }),
         viteReact(),
         tailwindcss(),
+        sitemap({
+            hostname: "https://pepeboard.app",
+            dynamicRoutes: ["/", "/privacy-policy", "/terms-of-service"],
+        }),
     ],
     resolve: {
         alias: {
