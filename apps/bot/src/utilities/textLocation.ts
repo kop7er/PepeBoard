@@ -1,22 +1,21 @@
 import type { Canvas } from "canvas";
+import type { BoardType } from "../types/global.js";
 
-export default function getBoardTextLocation(
-    boardType: BoardType,
-    canvas: Canvas,
-): { x: number; y: number } {
-    switch (boardType) {
-        case "normal":
-            return {
-                x: canvas.width / 2.0,
+export interface TextLocation {
+    readonly x: number;
+    readonly y: number;
+}
 
-                y: canvas.height / 3.4,
-            };
+const LOCATION_DIVISORS: Record<BoardType, TextLocation> = {
+    normal: { x: 2.0, y: 3.4 },
+    minecraft: { x: 2.0, y: 2.2 },
+} as const;
 
-        case "minecraft":
-            return {
-                x: canvas.width / 2.0,
+export function getBoardTextLocation(boardType: BoardType, canvas: Canvas): TextLocation {
+    const divisors = LOCATION_DIVISORS[boardType];
 
-                y: canvas.height / 2.2,
-            };
-    }
+    return {
+        x: canvas.width / divisors.x,
+        y: canvas.height / divisors.y,
+    };
 }
