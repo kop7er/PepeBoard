@@ -4,6 +4,17 @@ FROM node:24-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
+RUN apt-get update && apt-get install -y \
+    libcairo2 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libgif7 \
+    libjpeg62-turbo \
+    libpng16-16 \
+    librsvg2-2 \
+    libexpat1 \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN corepack enable
 
 WORKDIR /app
