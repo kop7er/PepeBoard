@@ -31,8 +31,10 @@ ENV NODE_ENV=production
 
 WORKDIR /app/apps/bot
 
-COPY --from=deps /app/node_modules ../node_modules
+COPY --from=deps /app/node_modules /app/node_modules
+COPY --from=deps /app/apps/bot/node_modules ./node_modules
 COPY --from=builder /app/apps/bot/dist ./dist
 COPY --from=builder /app/apps/bot/fonts ./fonts
+COPY --from=deps /app/apps/bot/package.json ./package.json
 
 CMD ["node", "dist/index.js"]
