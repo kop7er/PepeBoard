@@ -39,7 +39,7 @@
     "typescript": "^5.7.2",
     "vite": "^7.3.5",
     "vite-plugin-sitemap": "^0.8.2",
-    "vitest": "^4.1.0",
+    "vitest": "^4.1.11",
     "web-vitals": "^5.1.0"
   },
   "engines": {
